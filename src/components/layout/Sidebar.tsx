@@ -43,9 +43,7 @@ const Sidebar = () => {
                     icon={BiLogOut}
                     label="Logout"
                 />
-                <SidebarTweetButton
-                
-                />
+                <SidebarTweetButton />
             </div>
         </div>
     </div>
