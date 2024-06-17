@@ -4,23 +4,27 @@ import { getSession } from "next-auth/react";
 import prisma from '@/libs/prismadb'
 
 const serverAuth = async (req: NextApiRequest) => {
-    const session = await getSession({ req });
+  const session = await getSession({ req });
 
-    if(!session?.user?.email) {
-        throw new Error('Not signed in!')
+  if (!session) {
+    throw new Error('Unauthorized: No valid session found'); // Use 401 for unauthorized
+  }
+
+  if (!session.user?.email) {
+    throw new Error('Invalid Session: Missing email in session data');
+  }
+
+  const currentUser = await prisma.user.findUnique({
+    where: {
+      email: session.user.email
     }
+  });
 
-    const currentUser = await prisma.user.findUnique({
-        where: {
-            email: session.user.email
-        }
-    });
+  if (!currentUser) {
+    throw new Error('User Not Found: User not found in database');
+  }
 
-    if(!currentUser) {
-        throw new Error('Not signed in!');
-    };
-
-    return { currentUser }
-}
+  return { currentUser }
+};
 
 export default serverAuth;
