@@ -1,5 +1,5 @@
 import { BsBellFill, BsHouseFill } from "react-icons/bs"
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import { BiLogOut } from "react-icons/bi"
 import { FaUser } from "react-icons/fa"
 
@@ -10,7 +10,8 @@ import SidebarItem from "./SidebarItem"
 import SidebarTweetButton from "./SidebarTweetButton"
 
 const Sidebar = () => {
-    const { data: currentUser } = useCurrentUser();
+    const { data: session } = useSession();
+    const { data: currentUser } = useCurrentUser(session);
 
     const items = [
         {
