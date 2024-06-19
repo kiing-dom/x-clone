@@ -1,5 +1,6 @@
 import useCurrentUser from "@/hooks/useCurrentUser";
 import useLoginModal from "@/hooks/useLoginModal";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { IconType } from "react-icons"
@@ -14,7 +15,8 @@ interface SidebarItemProps {
 
 const SidebarItem: React.FC<SidebarItemProps> = ({ label, href, icon: Icon, onClick, auth }) => {
     const loginModal = useLoginModal();
-    const { data: currentUser } = useCurrentUser();
+    const {data: session } = useSession();
+    const { data: currentUser } = useCurrentUser(session);
     const router = useRouter();
     const handleClick = useCallback(() => {
         if(onClick) {
