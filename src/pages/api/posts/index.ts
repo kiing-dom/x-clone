@@ -34,8 +34,6 @@ export default async function handler(
         if (req.method === 'GET') {
             const { userId } = req.query;
 
-            console.log('GET Request - UserID from query:', userId);
-
             let posts;
 
             if (userId && typeof userId === 'string') {
@@ -54,7 +52,6 @@ export default async function handler(
                     }
                 });
 
-                console.log('GET Request - Posts for userId:', posts);
             } else {
                 console.log('Finding all posts since no valid userId found.');
 
@@ -68,7 +65,6 @@ export default async function handler(
                     }
                 });
 
-                console.log('GET Request - All Posts:', posts);
             }
 
             return res.status(200).json(posts);
