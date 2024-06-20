@@ -23,7 +23,10 @@ const PostView = () => {
         <>
             <Header label="Post" showBackArrow />
             <PostItem data={fetchedPost} />
-            <Form placeholder="Add comment" />
+            <Form 
+                postId={postId as string}
+                placeholder="Add comment..." />
+                isComment
         </>
     );
 }
