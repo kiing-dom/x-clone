@@ -25,8 +25,10 @@ const PostView = () => {
             <PostItem data={fetchedPost} />
             <Form 
                 postId={postId as string}
-                placeholder="Add comment..." />
+                placeholder="Add comment..." 
                 isComment
+                />
+            <CommentFeed comments={fetchedPost?.comments} />      
         </>
     );
 }
