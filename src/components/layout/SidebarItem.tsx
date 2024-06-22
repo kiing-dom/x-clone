@@ -1,32 +1,44 @@
 import useCurrentUser from "@/hooks/useCurrentUser";
 import useLoginModal from "@/hooks/useLoginModal";
+
+
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { IconType } from "react-icons"
+import { BsDot } from 'react-icons/bs'
 
 interface SidebarItemProps {
     label: string;
     href?: string;
     icon: IconType;
     onClick?: () => void;
-    auth?: boolean
+    auth?: boolean;
+    alert?: boolean;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({ label, href, icon: Icon, onClick, auth }) => {
+const SidebarItem: React.FC<SidebarItemProps> = ({
+    label,
+    href,
+    icon: Icon,
+    onClick,
+    auth,
+    alert
+}) => {
+
     const loginModal = useLoginModal();
-    const {data: session } = useSession();
+    const { data: session } = useSession();
     const { data: currentUser } = useCurrentUser(session);
     const router = useRouter();
     const handleClick = useCallback(() => {
-        if(onClick) {
+        if (onClick) {
             return onClick();
         }
-        if(auth && !currentUser) {
+        if (auth && !currentUser) {
             loginModal.onOpen();
             return;
         }
-        if(href) {
+        if (href) {
             router.push(href);
         }
     }, [router, onClick, href, currentUser, auth, loginModal])
@@ -36,19 +48,21 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ label, href, icon: Icon, onCl
             {/* Mobile Sizing */}
             <div
                 className="
-            relative
-            rounded-full
-            h-14
-            w-14
-            flex-items-center
-            justify-center
-            p-4
-            hover:bg-slate-300
-            hover:bg-opacity-10
-            cursor-pointer
-            lg:hidden
-        ">
+                    relative
+                    rounded-full
+                    h-14
+                    w-14
+                    flex-items-center
+                    justify-center
+                    p-4
+                    hover:bg-slate-300
+                    hover:bg-opacity-10
+                    cursor-pointer
+                    lg:hidden
+                "
+            >
                 <Icon size={28} color="white" />
+                {alert ? <BsDot className="text-sky-500 absolute -top-4 left-0" size={70} /> : null }
             </div>
 
             {/* Desktop Sizing */}
@@ -68,6 +82,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ label, href, icon: Icon, onCl
                 <p className="hidden lg:block text-white text-xl">
                     {label}
                 </p>
+                {alert ? <BsDot className="text-sky-500 absolute -top-4 left-0" size={70} /> : null }
             </div>
         </div>
     )
