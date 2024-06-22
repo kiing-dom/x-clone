@@ -13,6 +13,7 @@ const PostView = () => {
     const { data: fetchedPost, isLoading } = usePost(postId as string);
 
     if(isLoading || !fetchedPost) {
+        console.log(fetchedPost)
         return (
             <div className="flex justify-center items-center h-full">
                 <ClipLoader color="lightblue" size={80} />
